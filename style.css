@@ -57,6 +57,7 @@ body {
     font-family: 'Digital7', sans-serif;
     font-size: 3em;
     width: 260px;
+    height: 48px;
     margin: 0.25em auto;
     padding: 0 0.125em;
     border-radius: 5px;
@@ -84,6 +85,6 @@ body {
 
 }
 
-#all-clear {
+#all-clear-btn {
     flex: 2 0 120px;
 }

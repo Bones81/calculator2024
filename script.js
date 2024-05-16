@@ -66,11 +66,29 @@ function addDecimal() {
 
 const numberBtns = document.querySelectorAll('.number')
 numberBtns.forEach( (btn) => {
-    btn.addEventListener('click', (e) => {
-        display.innerText += e.target.textContent
-    })
+    btn.addEventListener('click', (e) => clickNumber(e))
 })
 
-console.log(display.innerText);
+decimalBtn.addEventListener('click', (e) => clickNumber(e))
 
+function clickNumber(event) {
+    if(display.textContent.length < 10) {
+        display.textContent += event.target.textContent
+    }
+}
 
+function clickClear() {
+    display.innerText = ''
+}
+
+clearBtn.addEventListener('click', clickClear)
+
+function togglePositiveNegative() {
+    if (display.textContent.includes('-')) {
+        display.textContent = display.textContent.slice(1)
+    } else {
+        display.textContent = '-' + display.textContent
+    }
+}
+
+plusMinusBtn.addEventListener('click', togglePositiveNegative)
