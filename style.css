@@ -9,33 +9,43 @@
     box-sizing: border-box;
 }
 
+body {
+    height: 100vh;
+    display: grid;
+    place-items: center;
+}
+
 #branding {
-    font-size: 1.5em;
+    font-size: 1.25em;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-style: italic;
+    text-align: center;
     color: #222;
-    text-shadow: 1px 1px 20px slategray,
-        1px -1px 20px slategray, 
-        -1px -1px 20px slategray,
-        -1px 1px 20px slategray;
+    text-shadow: 1px 1px 2px #999,
+        1px -1px 2px #999, 
+        -1px -1px 2px #999,
+        -1px 1px 2px #999;
     padding: 0.5em;
-    box-shadow: 1px 1px 20px #222,
-        1px -1px 20px #222,
-        -1px -1px 20px #222,
-        -1px 1px 20px #222;
+    box-shadow: 1px 1px 5px #666,
+        1px -1px 5px #666,
+        -1px -1px 5px #222,
+        -1px 1px 5px #222;
     border-radius: 1em;
+}
+
+#model-span {
+    font-size: 1em;
+    font-style: normal;
 }
 
 #calculator-body {
     width: 300px;
-    height: 600px;
-    margin: 0 auto;
-    padding: 1em;
+    padding: 2em 1em;
     background-color: slategray;
-    box-shadow: 2px 2px 10px slategray, 
-        2px -2px 10px slategray, 
-        -2px 2px 10px #222,
-        -2px -2px 10px #222;
+    box-shadow: 2px 2px 15px #222, 
+        2px -2px 15px #222, 
+        -2px 2px 1cap #222,
+        -2px -2px 15px #222;
     border-radius: 2em;
 }
 
@@ -47,9 +57,12 @@
     font-family: 'Digital7', sans-serif;
     font-size: 3em;
     width: 260px;
-    margin: 1em auto;
+    margin: 0.25em auto;
     padding: 0 0.125em;
     border-radius: 5px;
+    box-shadow: -2px 2px 5px #222,
+        2px -2px 5px #222;
+    overflow: hidden;
 }
 
 #buttons {
@@ -57,7 +70,7 @@
     flex-flow: row wrap;
     justify-content: center;
     align-content: center;
-    gap: 0.25em;
+    gap: 0.5em;
 }
 
 .btn {
@@ -65,6 +78,10 @@
     padding: 0.5em;
     background-color: #444;
     color: whitesmoke;
+    border-radius: 0.5em;
+    box-shadow: -2px 2px 5px #222;
+    cursor: pointer;
+
 }
 
 #all-clear {
