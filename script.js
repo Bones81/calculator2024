@@ -19,6 +19,9 @@ const subtractBtn = document.querySelector('#subtract-btn')
 const multiplyBtn = document.querySelector('#multiply-btn')
 const divideBtn = document.querySelector('#divide-btn')
 const equalsBtn = document.querySelector('#equals-btn')
+let operand1 = 0
+let operand2 = 0
+let operator = ''
 
 // SET OPERATOR FUNCTIONS
 function add(a,b) {
@@ -37,6 +40,65 @@ function divide(a,b) {
     if (b === 0) return 'CANNOT DIV BY 0'
     return b / a
 }
+
+// SET DECIMAL LOGIC
+function addDecimal() {
+    if(display.textContent.includes('.')) return
+    display.textContent += '.'
+}
+
+// ADD Listener to each number button to update display text
+const numberBtns = document.querySelectorAll('.number')
+numberBtns.forEach( (btn) => {
+    btn.addEventListener('click', (e) => clickNumber(e))
+})
+
+decimalBtn.addEventListener('click', (e) => clickNumber(e))
+
+function clickNumber(event) {
+    // ENSURE display never has more than 10 digits (including any decimals)
+    if(display.textContent.length < 10) {
+        display.textContent += event.target.textContent
+    }
+}
+
+function clickClear() {
+    display.textContent = ''
+}
+
+clearBtn.addEventListener('click', clickClear)
+
+allClearBtn.addEventListener('click', () => {
+    clickClear()
+    //Also clear operands in memory
+    operand1 = 0
+    operand2 = 0
+    operator = ''
+})
+
+// SET toggle of display text when clicking +/- button
+function togglePositiveNegative() {
+    if (display.textContent.includes('-')) {
+        display.textContent = display.textContent.slice(1)
+    } else {
+        display.textContent = '-' + display.textContent
+    }
+}
+
+plusMinusBtn.addEventListener('click', togglePositiveNegative)
+
+// OPERATOR BUTTON FUNCTIONS
+const operators = document.querySelectorAll('.operator')
+operators.forEach( btn => btn.addEventListener('click', (e) => {
+    if (e.target.id === 'equals-btn') {
+        operate(operator, operand1, operand2)
+    } else {
+        operator = e.target.textContent
+        // Once operator is clicked, the number in the display becomes operand1.
+        operand1 = Number(display.textContent)
+    }
+
+}))
 
 // SET OPERATE FUNCTION
 function operate(op, a, b) {
@@ -58,37 +120,11 @@ function operate(op, a, b) {
     }
 }
 
-// SET DECIMAL LOGIC
-function addDecimal() {
-    if(display.textContent.includes('.')) return
-    display.innerText += '.'
+function executeOperation() {
+    operand2 = Number(display.textContent)
+    display.textContent = ''
+    display.textContent = operate(operator, operand1, operand2)
+
 }
 
-const numberBtns = document.querySelectorAll('.number')
-numberBtns.forEach( (btn) => {
-    btn.addEventListener('click', (e) => clickNumber(e))
-})
-
-decimalBtn.addEventListener('click', (e) => clickNumber(e))
-
-function clickNumber(event) {
-    if(display.textContent.length < 10) {
-        display.textContent += event.target.textContent
-    }
-}
-
-function clickClear() {
-    display.innerText = ''
-}
-
-clearBtn.addEventListener('click', clickClear)
-
-function togglePositiveNegative() {
-    if (display.textContent.includes('-')) {
-        display.textContent = display.textContent.slice(1)
-    } else {
-        display.textContent = '-' + display.textContent
-    }
-}
-
-plusMinusBtn.addEventListener('click', togglePositiveNegative)
+equalsBtn.addEventListener('click', executeOperation)
