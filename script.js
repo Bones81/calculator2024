@@ -37,7 +37,7 @@ function multiply(a,b) {
 }
 
 function divide(a,b) {
-    if (b === 0) return 'CANNOT DIV BY 0'
+    if (b === 0) return '!DIV BY 0!'
     return a / b
 }
 
@@ -47,36 +47,7 @@ function addDecimal() {
     display.textContent += '.'
 }
 
-// ADD Listener to each number button to update display text
-const numberBtns = document.querySelectorAll('.number')
-numberBtns.forEach( (btn) => {
-    btn.addEventListener('click', (e) => clickNumber(e))
-})
-
 decimalBtn.addEventListener('click', addDecimal)
-
-function clickNumber(event) {
-    // If operand 1 is equal to what is currently in the display, clear the display and start a new operand
-    if (operand1 === Number(display.textContent)) {
-        display.textContent = ''
-    }
-    // ENSURE display never has more than 10 digits (including any decimals)
-    if(display.textContent.length < 10) {
-        display.textContent += event.target.textContent
-    }
-
-}
-
-function assignToOperand() {
-    // If there is no operand1 yet, assign the value of the display to it.
-    if (operand1 === null) {
-        operand1 = Number(display.textContent)
-    }
-    // If there is an operand1 already, assign the value of the display to operand2.
-    if (operand1 || operand1 === 0) {
-    operand2 = Number(display.textContent);
-    }
-}
 
 function clickClear() {
     display.textContent = ''
@@ -103,16 +74,50 @@ function togglePositiveNegative() {
 
 plusMinusBtn.addEventListener('click', togglePositiveNegative)
 
+// ADD Listener to each number button to update display text
+const numberBtns = document.querySelectorAll('.number')
+numberBtns.forEach( (btn) => {
+    btn.addEventListener('click', (e) => clickNumber(e))
+})
+
+function clickNumber(event) {
+    // If operand 1 is equal to what is currently in the display, clear the display so that a new number can be typed in
+    if (operand1 === Number(display.textContent)) {
+        display.textContent = ''
+    }
+    // ENSURE display never has more than 10 digits (including any decimals)
+    if(display.textContent.length < 10) {
+        display.textContent += event.target.textContent
+    }
+
+}
+
+function assignToOperand1() {
+    // If there is no operand1 yet, assign the value of the display to it.
+    if (operand1 === null) {
+        operand1 = Number(display.textContent)
+    }
+}
+
+function assignToOperand2() {
+    // Ensure operand1 exists first
+    if (operand1 === null) return
+    operand2 = Number(display.textContent)
+}
+
+
 // OPERATOR BUTTON FUNCTIONS
 const operators = document.querySelectorAll('.operator')
 operators.forEach( btn => btn.addEventListener('click', (e) => {
     if (e.target.id === 'equals-btn') {
+        assignToOperand2()
         operate(operator, operand1, operand2)
     } else {
-        operator = e.target.textContent
         // Once operator is clicked, the number in the display becomes operand1.
-        operand1 = Number(display.textContent)
-        // The next keystroke needs to clear the display before starting the next operand.
+        assignToOperand1()
+        // Operator is assigned
+        operator = e.target.textContent
+        
     }
 
 }))
@@ -133,14 +138,13 @@ function operate(op, a, b) {
             return divide(a,b)
             break;
         default:
-            alert('An error has occurred')
+            alert('An error has occurred. Cannot calculate when no operator has been selected.')
     }
 }
 
 function executeOperation() {
     display.textContent = ''
     display.textContent = operate(operator, operand1, operand2)
-    operand1 = Number(display.textContent)
 }
 
 equalsBtn.addEventListener('click', executeOperation)
