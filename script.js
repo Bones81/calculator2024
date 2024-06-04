@@ -19,8 +19,8 @@ const subtractBtn = document.querySelector('#subtract-btn')
 const multiplyBtn = document.querySelector('#multiply-btn')
 const divideBtn = document.querySelector('#divide-btn')
 const equalsBtn = document.querySelector('#equals-btn')
-let operand1 = 0
-let operand2 = 0
+let operand1 = null
+let operand2 = null
 let operator = ''
 
 // SET OPERATOR FUNCTIONS
@@ -53,7 +53,7 @@ numberBtns.forEach( (btn) => {
     btn.addEventListener('click', (e) => clickNumber(e))
 })
 
-decimalBtn.addEventListener('click', (e) => clickNumber(e))
+decimalBtn.addEventListener('click', addDecimal)
 
 function clickNumber(event) {
     // If operand 1 is equal to what is currently in the display, clear the display and start a new operand
@@ -63,6 +63,18 @@ function clickNumber(event) {
     // ENSURE display never has more than 10 digits (including any decimals)
     if(display.textContent.length < 10) {
         display.textContent += event.target.textContent
+    }
+
+}
+
+function assignToOperand() {
+    // If there is no operand1 yet, assign the value of the display to it.
+    if (operand1 === null) {
+        operand1 = Number(display.textContent)
+    }
+    // If there is an operand1 already, assign the value of the display to operand2.
+    if (operand1 || operand1 === 0) {
+    operand2 = Number(display.textContent);
     }
 }
 
@@ -75,8 +87,8 @@ clearBtn.addEventListener('click', clickClear)
 allClearBtn.addEventListener('click', () => {
     clickClear()
     //Also clear operands in memory
-    operand1 = 0
-    operand2 = 0
+    operand1 = null
+    operand2 = null
     operator = ''
 })
 
@@ -126,10 +138,9 @@ function operate(op, a, b) {
 }
 
 function executeOperation() {
-    operand2 = Number(display.textContent)
     display.textContent = ''
     display.textContent = operate(operator, operand1, operand2)
-
+    operand1 = Number(display.textContent)
 }
 
 equalsBtn.addEventListener('click', executeOperation)
