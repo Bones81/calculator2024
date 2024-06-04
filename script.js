@@ -38,7 +38,7 @@ function multiply(a,b) {
 
 function divide(a,b) {
     if (b === 0) return 'CANNOT DIV BY 0'
-    return b / a
+    return a / b
 }
 
 // SET DECIMAL LOGIC
@@ -56,6 +56,10 @@ numberBtns.forEach( (btn) => {
 decimalBtn.addEventListener('click', (e) => clickNumber(e))
 
 function clickNumber(event) {
+    // If operand 1 is equal to what is currently in the display, clear the display and start a new operand
+    if (operand1 === Number(display.textContent)) {
+        display.textContent = ''
+    }
     // ENSURE display never has more than 10 digits (including any decimals)
     if(display.textContent.length < 10) {
         display.textContent += event.target.textContent
@@ -96,6 +100,7 @@ operators.forEach( btn => btn.addEventListener('click', (e) => {
         operator = e.target.textContent
         // Once operator is clicked, the number in the display becomes operand1.
         operand1 = Number(display.textContent)
+        // The next keystroke needs to clear the display before starting the next operand.
     }
 
 }))

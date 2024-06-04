@@ -64,6 +64,8 @@ body {
     box-shadow: -2px 2px 5px #222,
         2px -2px 5px #222;
     overflow: hidden;
+    border-style: inset;
+    border: 2px solid rgba(0,0,0, 0.4);
 }
 
 #buttons {
@@ -82,9 +84,22 @@ body {
     border-radius: 0.5em;
     box-shadow: -2px 2px 5px #222;
     cursor: pointer;
+    transition: 0.1s all ease;
+}
 
+.btn:hover {
+    transform: scale(1.125);
 }
 
 #all-clear-btn {
     flex: 2 0 120px;
+}
+
+.operator {
+    background-color: aqua;
+    color: black;
+}
+
+#equals-btn {
+    background-color: seagreen;;
 }
