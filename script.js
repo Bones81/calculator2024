@@ -14,6 +14,7 @@ const plusMinusBtn = document.querySelector('#plus-minus-btn')
 const decimalBtn = document.querySelector('#decimal-btn')
 const allClearBtn = document.querySelector('#all-clear-btn')
 const clearBtn = document.querySelector('#clear-btn')
+const sqrtBtn = document.querySelector("#sqrt-btn");
 const addBtn = document.querySelector('#add-btn')
 const subtractBtn = document.querySelector('#subtract-btn')
 const multiplyBtn = document.querySelector('#multiply-btn')
@@ -22,6 +23,7 @@ const equalsBtn = document.querySelector('#equals-btn')
 let operand1 = null
 let operand2 = null
 let operator = ''
+let isOperatorSelected = false
 
 // SET OPERATOR FUNCTIONS
 function add(a,b) {
@@ -61,6 +63,7 @@ allClearBtn.addEventListener('click', () => {
     operand1 = null
     operand2 = null
     operator = ''
+    isOperatorSelected = false
 })
 
 // SET toggle of display text when clicking +/- button
@@ -93,10 +96,7 @@ function clickNumber(event) {
 }
 
 function assignToOperand1() {
-    // If there is no operand1 yet, assign the value of the display to it.
-    if (operand1 === null) {
-        operand1 = Number(display.textContent)
-    }
+    operand1 = Number(display.textContent)
 }
 
 function assignToOperand2() {
@@ -108,43 +108,62 @@ function assignToOperand2() {
 
 // OPERATOR BUTTON FUNCTIONS
 const operators = document.querySelectorAll('.operator')
-operators.forEach( btn => btn.addEventListener('click', (e) => {
-    if (e.target.id === 'equals-btn') {
-        assignToOperand2()
-        operate(operator, operand1, operand2)
-    } else {
-        // Once operator is clicked, the number in the display becomes operand1.
-        assignToOperand1()
-        // Operator is assigned
-        operator = e.target.textContent
-        
-    }
-
+operators.forEach(btn => btn.addEventListener('click', (e) => {
+    // Once operator is clicked, the number in the display becomes operand1.
+    assignToOperand1()
+    // Operator is assigned
+    operator = e.target.textContent
+    isOperatorSelected = true
 }))
+
+// ADD SQUARE ROOT LISTENER
+sqrtBtn.addEventListener("click", () => {
+  operator = "√";
+  performCalculation();
+});
 
 // SET OPERATE FUNCTION
 function operate(op, a, b) {
-    switch(op) {
-        case '+':
-            return add(a,b)
-            break
-        case '-':
-            return subtract(a,b)
-            break
-        case '*':
-            return multiply(a,b)
+    switch (op) {
+        // Addition case
+        case "+":
+            return add(a, b);
             break;
-        case '/':
-            return divide(a,b)
+        // Subtraction case
+        case "-":
+            return subtract(a, b);
             break;
+        // Multiplication case
+        case "*":
+            return multiply(a, b);
+            break;
+        // Division case
+        case "/":
+            return divide(a, b);
+            break;
+        case "√":
+            return Math.sqrt(a);
+        // No operator chosen
         default:
-            alert('An error has occurred. Cannot calculate when no operator has been selected.')
+            alert(
+                "An error has occurred. Cannot calculate when no operator has been selected."
+            );
     }
 }
 
-function executeOperation() {
-    display.textContent = ''
-    display.textContent = operate(operator, operand1, operand2)
+function performCalculation() {
+    if (operator === "√") {
+        assignToOperand1();
+        display.textContent = operate(operator, operand1, operand2);
+        operand1 = Number(display.textContent);
+    } else {
+        if (isOperatorSelected) {
+            assignToOperand2();
+        } 
+        display.textContent = operate(operator, operand1, operand2);
+        operand1 = Number(display.textContent);
+        isOperatorSelected = false
+    }
 }
-
-equalsBtn.addEventListener('click', executeOperation)
+                    
+equalsBtn.addEventListener('click', performCalculation)
